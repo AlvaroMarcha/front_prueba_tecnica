@@ -15,7 +15,17 @@
             </thead>
             <!-- Here v-for to iterate elements (users) -->
              <tbody>
-
+                <tr v-for="user in users" :key="user.id">
+                    <td>{{ user._id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.phone }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.password }}</td>
+                    <td>
+                        <button>Editar</button>
+                        <button>Eliminar</button>
+                    </td>
+                </tr>
              </tbody>
              <tfoot>
                 <tr>
@@ -23,11 +33,23 @@
                 </tr>
              </tfoot>
         </table>
+        <div class="add">
+            +
+        </div>
     </div>
 </template>
 <script setup>
+import {ref} from "vue";
 
+let users=ref([]);
+//Method to get all users to list
+const getUsers=async()=>{
+    const response=await fetch("http://localhost:3000/users");
+    const dataUsers=await response.json();
+    users.value=dataUsers;
+}
 
+getUsers();
 
 </script>
 <style scoped>
@@ -82,6 +104,23 @@ th{
 td{
     text-align: center;
     color: white;
+}
+
+.add{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background: green;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
 }
 
 
