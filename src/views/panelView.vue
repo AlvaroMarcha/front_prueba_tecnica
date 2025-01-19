@@ -1,7 +1,9 @@
 <template>
-  <router-view></router-view>
+    <h2>Panel de control</h2>
+
 </template>
 <script setup>
+
 </script>
 <style scoped>
 

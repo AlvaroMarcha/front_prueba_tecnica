@@ -1,9 +1,10 @@
 import { createApp } from "vue";
 import App from "./App.vue";
+import router from "./router";
 
 const app = createApp(App);
+app.use(router);
 
-// Configuraciones globales de Vue 3
 app.config.globalProperties.productionTip = false;
 
 app.mount("#app");
