@@ -3,26 +3,41 @@
         <input type="text" v-model="email" placeholder="Email">
         <input type="password" v-model="password" placeholder="Password">
         <button type="submit">Entrar</button>
+        <p class="msg">{{ message }}</p>
     </form>
 
 </template>
 <script setup>
 import { useRouter } from 'vue-router';
-
 const router=useRouter();
+
+import {ref} from "vue";
+let message=ref("Introduce tus credenciales");
 let email="";
 let password="";
+// Function to get all users
+const login= async()=>{
+    const response=await fetch("http://localhost:3000/users");
+    const dataUser=await response.json();
 
-//Method to login user
-const login=()=>{
-    if(email==="admin" && password==="1234"){
+    const findUser=dataUser.some((user)=>{
+        let status=false;
+        if(user.email==email && user.password==password){
+            status=true;
+        }
+        message.value=ref("El usuario no existe o las credenciales son incorrectas");
+        return status;
+    });
+
+    if(findUser){
+        console.log("El usuario ha sido encontrado -> Dele pa dentro");
         router.push("/panel");
-        alert("Credenciales correctas");
     }else{
-        alert("Credenciales incorrectas");
+        console.log("El usuario no se ha encontrado -> Mi loco dele pa fuera");
     }
-
 }
+
+
 
 </script>
 <style scoped>
@@ -32,8 +47,8 @@ form{
     gap: 10px;
     justify-content: center;
     align-items: center;
-    width: 50%;
-    height: 250px;
+    width: 30%;
+    height: 300px;
     margin: auto;
     margin-top: 100px;
     border-radius: 20px;
@@ -81,5 +96,10 @@ button:hover{
     box-shadow: 
     4px 4px 20px rgb(255, 255, 255),
     -4px -4px 20px rgba(255, 255, 255, 0.321);
+}
+
+.msg{
+    color: white;
+
 }
 </style>
