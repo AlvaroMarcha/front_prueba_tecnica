@@ -1,8 +1,9 @@
-import Vue from "vue";
+import { createApp } from "vue";
 import App from "./App.vue";
 
-Vue.config.productionTip = false;
+const app = createApp(App);
 
-new Vue({
-  render: (h) => h(App),
-}).$mount("#app");
+// Configuraciones globales de Vue 3
+app.config.globalProperties.productionTip = false;
+
+app.mount("#app");
